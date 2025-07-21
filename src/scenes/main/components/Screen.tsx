@@ -21,7 +21,7 @@ export const ScreenBase = ({ children, ...props }: ScreenBaseProps) => {
         rotation={[-Math.PI / 9, 0, 0]}
       >
         <meshPhysicalMaterial
-          emissive="#0c250c"
+          emissive="#0c1025"
           emissiveIntensity={0.3}
           toneMapped={false}
           metalness={0.2}
@@ -58,13 +58,16 @@ export const TextArea = ({ defaultText }: TextAreaProps) => {
       {defaultText}
       <meshStandardMaterial
         attach="material"
-        color="black"
-        emissive="lime"
-        emissiveIntensity={3}
+        color="#7703fc"
+        emissive="#7703fc"
+        emissiveIntensity={6}
       />
     </Text>
   );
 };
+
+
+const DEFAULT_TEXT = "Welcome to the VOID :] Type anything . . ."
 
 export const Screen = ({ ...props }: ScreenProps) => {
   const { text } = useInteractiveScreen();
@@ -76,9 +79,9 @@ export const Screen = ({ ...props }: ScreenProps) => {
         aspect={1 / 1}
         position={[0, 0, 7.51]}
       />
-      <color attach="background" args={["#0c250c"]} />
+      <color attach="background" args={["#0c1025"]} />
       <ambientLight intensity={0.5} />
-      <TextArea defaultText={text} />
+      <TextArea defaultText={text || DEFAULT_TEXT} />
     </ScreenBase>
   );
 };

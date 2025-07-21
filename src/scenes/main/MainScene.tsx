@@ -29,14 +29,18 @@ import {
   SpotLightHelper,
 } from "three";
 import { BlendFunction } from "postprocessing";
+import { Bulb } from "./components/Bulb";
+import { clamp } from "three/src/math/MathUtils.js";
 
 export const MainScene = () => {
   const directionalLightRef = useRef<DirectionalLight>(null!);
   const pointLightRef = useRef<PointLight>(null!);
+  const bulbLightRef = useRef<PointLight>(null!);
   const spotLightRef = useRef<SpotLight>(null!);
 
   //   useHelper(directionalLightRef, DirectionalLightHelper, 1, "cyan");
   //   useHelper(pointLightRef, PointLightHelper, 0.1, "cyan");
+  //  useHelper(bulbLightRef, PointLightHelper, 0.1, "yellow");
   //   useHelper(spotLightRef, SpotLightHelper, "pink");
 
   const { intensity, color } = useControls("Hemisphere Light", {
@@ -55,7 +59,7 @@ export const MainScene = () => {
   } = useControls("Directional Light", {
     intensity: { value: 0.05, min: 0, max: 2, step: 0.01 },
     color: {
-      value: "#00d1c2",
+      value: "#006bd1",
     },
     x: { value: 0, min: -10, max: 10, step: 0.01 },
     y: { value: 0.1, min: -10, max: 10, step: 0.01 },
@@ -71,11 +75,27 @@ export const MainScene = () => {
   } = useControls("Point Light", {
     intensity: { value: 0.2, min: 0, max: 2, step: 0.01 },
     color: {
-      value: "#83eb8e",
+      value: "#9c83eb",
     },
     x: { value: 0, min: -2, max: 2, step: 0.001 },
     y: { value: 0.07, min: -2, max: 2, step: 0.001 },
     z: { value: -0.8, min: -2, max: 2, step: 0.001 },
+  });
+
+  const {
+    intensity: intensityBulb,
+    color: colorBulb,
+    x: xBulb,
+    y: yBulb,
+    z: zBulb,
+  } = useControls("Bulb Light", {
+    intensity: { value: 0.2, min: 0, max: 2, step: 0.01 },
+    color: {
+      value: "#f8a614",
+    },
+    x: { value: 0.64, min: -2, max: 2, step: 0.001 },
+    y: { value: 0.18, min: -2, max: 2, step: 0.001 },
+    z: { value: -1.5, min: -2, max: 2, step: 0.001 },
   });
 
   const {
@@ -87,7 +107,7 @@ export const MainScene = () => {
   } = useControls("Spot Light", {
     intensity: { value: 0.03, min: 0, max: 2, step: 0.01 },
     color: {
-      value: "#c4ff8a",
+      value: "#8ac1ff",
     },
     x: { value: 0.14, min: -5, max: 5, step: 0.001 },
     y: { value: 1.77, min: -5, max: 5, step: 0.001 },
@@ -117,6 +137,15 @@ export const MainScene = () => {
         position={[xPoint, yPoint, zPoint]}
         intensity={intensityPoint}
         color={colorPoint}
+        castShadow
+        shadow-mapSize-width={1024}
+        shadow-mapSize-height={1024}
+      />
+           <pointLight
+        ref={bulbLightRef}
+        position={[xBulb, yBulb, zBulb]}
+        intensity={intensityBulb}
+        color={colorBulb}
         castShadow
         shadow-mapSize-width={1024}
         shadow-mapSize-height={1024}
@@ -153,17 +182,18 @@ export const MainScene = () => {
         <Bloom luminanceThreshold={0} luminanceSmoothing={1} height={300} />
         <DepthOfField
           focusDistance={0.06}
-          focalLength={0.3}
-          bokehScale={15}
+          focalLength={0.6}
+          bokehScale={10}
           height={700}
         />
         <Vignette eskil={false} offset={0.2} darkness={1.2} />
       </EffectComposer>
+      <Bulb scale={0.1} position={[0.6, 0.2, -1.4]} />
       <Keyboard position={[-0.545, -0.1, -1]} />
       <Laptop position={[-0.67, -0.1, -1]} />
       <BakeShadows />
-      <CameraInfoLogger />
       <AnimatedCamera />
+      {/* <CameraInfoLogger /> */}
     </>
   );
 };
@@ -184,13 +214,15 @@ function CameraInfoLogger() {
     />
   );
 }
+
+
 function AnimatedCamera() {
   useFrame((state, delta) => {
     easing.damp3(
       state.camera.position,
       [
         -1 + (state.pointer.x * state.viewport.width) / 3,
-        (1 + state.pointer.y) / 2,
+        clamp((1 + state.pointer.y), 0, 1) / 2,
         5.5,
       ],
       0.5,
@@ -198,4 +230,6 @@ function AnimatedCamera() {
     );
     state.camera.lookAt(0, 0, 0);
   });
+
+  return null;
 }

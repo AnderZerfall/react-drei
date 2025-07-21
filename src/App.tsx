@@ -3,11 +3,9 @@ import { InteractiveScreenProvider } from "./scenes/main/context/InterfactiveScr
 
 function App() {
   return (
-    <>
-      <InteractiveScreenProvider>
+    <InteractiveScreenProvider>
         <Scene />
       </InteractiveScreenProvider>
-    </>
   );
 }
 

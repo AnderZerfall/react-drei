@@ -37,13 +37,6 @@ export function Laptop(props: JSX.IntrinsicElements["group"]) {
         rotation={[-Math.PI / 2, 0, 0]}
         scale={100}
       />
-      {/* <mesh
-        geometry={nodes.screen.geometry}
-        material={materials.screen.green}
-        position={[0.666, -0.05, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-        scale={100}
-      /> */}
       <Screen />
     </group>
   );

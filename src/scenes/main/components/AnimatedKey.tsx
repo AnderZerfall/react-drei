@@ -30,7 +30,7 @@ export const AnimatedKey = ({ relevantKey, ...props }: AnimatedKeyProps) => {
 
     if (pressedKey === relevantKey) {
       setCurrentState(keyStates.pressed);
-      ref.current.material = materials.screen.green;
+      ref.current.material = materials.screen.purple;
     }
   }, [keyStates, pressedKey, relevantKey]);
 

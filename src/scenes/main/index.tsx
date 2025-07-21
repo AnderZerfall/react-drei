@@ -1,20 +1,5 @@
-import {
-  BakeShadows,
-  MeshReflectorMaterial,
-  OrbitControls,
-  useHelper,
-} from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import {
-  Bloom,
-  DepthOfField,
-  EffectComposer,
-} from "@react-three/postprocessing";
-import { Keyboard } from "./components/Keyboard";
-import { Laptop } from "./components/Laptop";
-import { Suspense, useRef } from "react";
-import { useControls } from "leva";
-import { DirectionalLight, DirectionalLightHelper } from "three";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
 import { MainScene } from "./MainScene";
 
 export const Scene = () => {

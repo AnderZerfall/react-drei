@@ -106,16 +106,6 @@ export type KeyboardProps = GLTF & {
 export function Keyboard(props: JSX.IntrinsicElements["group"]) {
   const { nodes, materials } = useGLTF("/keyboard.glb") as KeyboardProps;
 
-  // useFrame(() => {
-  //   if (keyRef.current && pressedKey) {
-  //     keyRef.current.position.y -= 0.1;
-  //     const timeout = setTimeout(() => {
-  //       if (keyRef.current) keyRef.current.position.y += 0.1;
-  //     }, 100);
-  //     return () => clearTimeout(timeout);
-  //   }
-  // });
-
   return (
     <group {...props} dispose={null}>
       <group position={[0.544, 0.016, 0.042]} scale={[5.135, 5.48, 4.966]}>
